@@ -34,11 +34,11 @@ car-price-analyzer/
 ## 🖥️ Web Dashboard Frontend Features
 
 - **📊 Live Analytics**: Real-time stats showing total verified cars, average price in Somoni (TJS), phone number coverage, and active monitored sellers.
-- **🔍 Instant Live Search**: Filter cars by model, brand, seller, specs, phone numbers, or free-text keywords with debounce.
+- **🔍 Instant Live Search**: Filter cars by model, brand, seller, specs, or phone numbers.
 - **🎛️ Interactive Filters**: Filter by Seller (`@auto_dubai.tj`, `@4444mk01`, etc.), Brand (`Toyota`, `BMW`, etc.), Min/Max Price in TJS, and "Phone Number Only" toggle.
 - **📱 One-Click Communication**: Direct click-to-call (`tel:`) and direct **WhatsApp** (`https://wa.me/...`) buttons for each listing.
 - **🖼️ Vehicle Media**: Direct preview of vehicle photos stored under `car_images/` with fallback placeholders.
-- **ℹ️ Details Modal**: Deep inspection dialog showing full specs, raw Instagram captions/OCR text, and direct Instagram post links.
+- **ℹ️ Details Modal**: Deep inspection dialog showing full specs and direct Instagram post links.
 - **📅 Daily Activity Log**: Audit history showing stories and cars discovered per seller today.
 
 ---
@@ -51,6 +51,55 @@ When the monitor runs multiple times per day, it uses **Seller Story Checkpoints
    - Any story with `current_story_id <= last_story_id` is immediately fast-forwarded without taking screenshots or performing OCR.
    - The monitor halts and performs OCR only when it encounters **new stories** posted after the last checkpoint.
    - At the end of the seller run, the checkpoint is updated to the newest story ID.
+
+---
+
+## 📊 Database Schemas
+
+### `cars` Table
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | `INTEGER` | Auto-incrementing primary key |
+| `seller_username`| `TEXT` | Instagram seller handle (e.g., `auto_dubai.tj`) |
+| `brand` | `TEXT` | Normalized vehicle make (e.g., `Toyota`, `BMW`, `Land Rover`) |
+| `model` | `TEXT` | Normalized vehicle model (e.g., `RAV4`, `M6`, `Range Rover P550e`) |
+| `year` | `INTEGER` | Manufacturing year (e.g., `2023`) |
+| `month` | `INTEGER` | Manufacturing month if provided (e.g., `7`) |
+| `mileage` | `INTEGER` | Normalized mileage in kilometers/miles |
+| `production` | `TEXT` | Country of origin / production (e.g., `USA`, `KOREA`, `GERMANY`) |
+| `transmission` | `TEXT` | Transmission type (e.g., `Автомат`) |
+| `fuel` | `TEXT` | Fuel type (e.g., `Бензин Гибрид`, `Дизель`) |
+| `engine` | `REAL` | Engine displacement in liters (e.g., `2.5`, `4.4`) |
+| `condition` | `TEXT` | Vehicle condition (e.g., `с пробегом`, `новый`) |
+| `price_tjs` | `INTEGER` | Price in Tajikistani Somoni (TJS) |
+| `price_usd` | `INTEGER` | Price in US Dollars (USD) |
+| `phone_number` | `TEXT` | Extracted seller contact phone number (e.g. `+992 907 77 01 10`) |
+| `source_type` | `TEXT` | Origin source: `POST_CAPTION` or `STORY_OCR` |
+| `source_url` | `TEXT` | Canonical Instagram URL |
+| `source_key` | `TEXT` | Unique hash key preventing duplicates |
+| `image_url` | `TEXT` | Remote CDN image link |
+| `image_path` | `TEXT` | Local file path under `car_images/` |
+| `created_at` | `DATETIME` | Timestamp of record creation |
+
+### `seller_checkpoints` Table
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `seller_username`| `TEXT` | Instagram seller handle (Primary Key) |
+| `last_story_id` | `TEXT` | The most recent story ID processed for this seller |
+| `last_checked_at` | `DATETIME` | Timestamp when the checkpoint was last updated |
+
+### `daily_story_checks` Table
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `id` | `INTEGER` | Auto-incrementing primary key |
+| `seller_username`| `TEXT` | Instagram seller handle |
+| `check_date` | `DATE` | Date of the check (`YYYY-MM-DD`) |
+| `stories_count` | `INTEGER` | Number of active stories reviewed today |
+| `cars_found` | `INTEGER` | Number of valid car listings found today |
+| `last_checked_at` | `DATETIME` | Timestamp of the most recent inspection |
 
 ---
 
@@ -76,4 +125,3 @@ HEADLESS=1 python3 story_monitor.py
 ```bash
 python3 -m unittest test_parsers.py -v
 ```
-# car-market-monitor

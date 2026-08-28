@@ -31,13 +31,30 @@ def normalize_instagram_url(url: Optional[str]) -> Optional[str]:
     return url
 
 
+def clean_caption_text(text: str) -> str:
+    """Strips likes, comments, and date wrappers from Instagram captions."""
+    if not text:
+        return ""
+    cleaned = re.sub(
+        r"^\d+[\s\w,]*likes?,[\s\w,]*comments?\s*[-–—]\s*[\w.]+(?:\s+on\s+[^:]+)?:\s*[\"“']?",
+        "",
+        text.strip(),
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(r"[\"”']+$", "", cleaned.strip())
+    return cleaned.strip()
+
+
 def clean_ui_noise(text: str) -> str:
     """Removes common Instagram / Story UI and watermark noise before parsing."""
     if not text:
         return ""
 
+    # First clean likes/comments wrapper if present
+    cleaned = clean_caption_text(text)
+
     # Remove UI headers and footers
-    cleaned = re.sub(r"\b(?:Instagzam|Instagram|Insta)\b", " ", text, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\b(?:Instagzam|Instagram|Insta)\b", " ", cleaned, flags=re.IGNORECASE)
     cleaned = re.sub(r"\bReply to\b.*", " ", cleaned, flags=re.IGNORECASE)
     cleaned = re.sub(r"\bSend message\b.*", " ", cleaned, flags=re.IGNORECASE)
     cleaned = re.sub(r"\bAUTOTUNING\b", " ", cleaned, flags=re.IGNORECASE)

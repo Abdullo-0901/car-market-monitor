@@ -347,15 +347,6 @@ window.openDetailModal = function(carId) {
         ${car.transmission ? `<span class="spec-pill">Transmission: ${car.transmission}</span>` : ''}
         ${car.fuel ? `<span class="spec-pill">Fuel: ${car.fuel}</span>` : ''}
         ${car.condition ? `<span class="spec-pill">Condition: ${car.condition}</span>` : ''}
-        ${car.production ? `<span class="spec-pill">Origin: ${car.production}</span>` : ''}
-      </div>
-    </div>
-
-    <div style="margin-bottom:1rem;">
-      <strong style="color:var(--text-muted); font-size:0.85rem; text-transform:uppercase;">Original Instagram Post / OCR Text:</strong>
-      <div class="raw-text-box">${car.raw_text || '(No text stored)'}</div>
-    </div>
-
     ${car.source_url ? `
       <div style="margin-top:1.5rem; text-align:right;">
         <a href="${car.source_url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">

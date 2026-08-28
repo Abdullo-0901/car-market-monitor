@@ -26,11 +26,11 @@ def query_cars(params: Dict[str, List[str]]) -> Dict[str, Any]:
     sql = "SELECT * FROM cars WHERE 1=1"
     args = []
 
-    # Search filter (brand, model, raw_text, phone_number, seller_username)
+    # Search filter (brand, model, phone_number, seller_username)
     if "search" in params and params["search"][0].strip():
         term = f"%{params['search'][0].strip()}%"
-        sql += " AND (brand LIKE ? OR model LIKE ? OR raw_text LIKE ? OR phone_number LIKE ? OR seller_username LIKE ?)"
-        args.extend([term, term, term, term, term])
+        sql += " AND (brand LIKE ? OR model LIKE ? OR phone_number LIKE ? OR seller_username LIKE ?)"
+        args.extend([term, term, term, term])
 
     # Seller filter
     if "seller" in params and params["seller"][0].strip():

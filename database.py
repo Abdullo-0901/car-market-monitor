@@ -2,7 +2,6 @@ import sqlite3
 from typing import Optional, Dict, Any, List
 
 from config import DB_PATH
-from parsers import parse_car_text, is_valid_listing
 
 
 def get_connection():
@@ -27,16 +26,21 @@ def get_table_columns(cursor: sqlite3.Cursor, table_name: str) -> List[str]:
 def init_db():
     """
     Initializes the SQLite database schema:
-    1. Unified `cars` table with `phone_number`.
+    1. Unified `cars` table (individual columns only, no raw_text).
     2. `seller_checkpoints` table tracking the last processed story ID per seller.
     3. `daily_story_checks` audit table.
     """
     conn = get_connection()
     cursor = conn.cursor()
 
-    # If cars table already exists, verify all required columns exist
+    # If cars table already exists, verify columns integrity
     if table_exists(cursor, "cars"):
         cols = get_table_columns(cursor, "cars")
+        if "raw_text" in cols:
+            try:
+                cursor.execute("ALTER TABLE cars DROP COLUMN raw_text")
+            except Exception:
+                pass
         if "phone_number" not in cols:
             cursor.execute("ALTER TABLE cars ADD COLUMN phone_number TEXT")
 
@@ -70,8 +74,6 @@ def init_db():
 
             source_url TEXT,
             source_key TEXT UNIQUE,
-
-            raw_text TEXT,
 
             image_url TEXT,
             image_path TEXT,
@@ -185,13 +187,12 @@ def save_car(
     source_type: str,
     source_key: str,
     source_url: Optional[str],
-    raw_text: str,
     car_data: Dict[str, Any],
     image_url: Optional[str] = None,
     image_path: Optional[str] = None,
 ) -> bool:
     """
-    Inserts a verified car record into the cars table including phone_number.
+    Inserts a verified car record into the cars table without redundant raw_text.
     Prevents duplicates via INSERT OR IGNORE on source_key UNIQUE constraint.
     """
     conn = get_connection()
@@ -218,11 +219,10 @@ def save_car(
                 source_type,
                 source_url,
                 source_key,
-                raw_text,
                 image_url,
                 image_path
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 seller_username,
@@ -242,7 +242,6 @@ def save_car(
                 source_type,
                 source_url,
                 source_key,
-                raw_text,
                 image_url,
                 image_path,
             ),

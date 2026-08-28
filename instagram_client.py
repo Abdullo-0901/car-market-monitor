@@ -1,5 +1,6 @@
 import hashlib
 import random
+import re
 import time
 from typing import Optional, Tuple
 from playwright.sync_api import BrowserContext, Page
@@ -151,9 +152,26 @@ def go_to_next_story(page: Page) -> bool:
     return before != get_story_fingerprint(page)
 
 
+def clean_raw_caption(raw: str) -> str:
+    """Strips likes, comments, and date wrappers from Instagram captions."""
+    if not raw:
+        return ""
+
+    # Strip og:description wrapper: 'XX likes, YY comments - username on Date: "..."'
+    cleaned = re.sub(
+        r"^\d+[\s\w,]*likes?,[\s\w,]*comments?\s*[-–—]\s*[\w.]+(?:\s+on\s+[^:]+)?:\s*[\"“']?",
+        "",
+        raw.strip(),
+        flags=re.IGNORECASE,
+    )
+    # Strip trailing quotes
+    cleaned = re.sub(r"[\"”']+$", "", cleaned.strip())
+    return cleaned.strip()
+
+
 def get_post_info(context: BrowserContext, post_url: str) -> Tuple[str, Optional[str]]:
     """
-    Opens the shared post/reel in a separate tab with anti-bot delay to extract caption and cover image,
+    Opens the shared post/reel in a separate tab with anti-bot delay to extract clean caption and cover image,
     then closes the tab without disrupting the active story loop.
     """
     post_page = context.new_page()
@@ -172,7 +190,7 @@ def get_post_info(context: BrowserContext, post_url: str) -> Tuple[str, Optional
         caption = ""
         image_url = None
 
-        # 1. Caption extraction
+        # 1. Caption extraction from article
         article = post_page.locator("article")
         if article.count() > 0:
             try:
@@ -180,12 +198,16 @@ def get_post_info(context: BrowserContext, post_url: str) -> Tuple[str, Optional
             except Exception:
                 pass
 
+        # 2. Fallback to meta og:description
         if not caption:
             og_desc = post_page.locator('meta[property="og:description"]')
             if og_desc.count() > 0:
                 caption = (og_desc.first.get_attribute("content") or "").strip()
 
-        # 2. Image extraction (og:image or largest article image)
+        # Clean any likes/comments wrapper noise
+        caption = clean_raw_caption(caption)
+
+        # 3. Image extraction (og:image or largest article image)
         og_image = post_page.locator('meta[property="og:image"]')
         if og_image.count() > 0:
             image_url = og_image.first.get_attribute("content")
