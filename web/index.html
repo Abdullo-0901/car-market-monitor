@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🚗 Tajikistan Car Market Monitor</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-group">
+        <div class="logo-icon">🚗</div>
+        <div>
+          <h1 class="brand-title">Car Market Monitor</h1>
+          <p class="brand-subtitle">Tajikistan Instagram Auto Market Live Intelligence</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btnDailyChecks" class="btn btn-secondary">
+          <span>📅 Daily Activity</span>
+        </button>
+        <button id="btnRefresh" class="btn btn-primary">
+          <span class="refresh-icon">🔄</span>
+          <span>Refresh Data</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- Dashboard Analytics Metrics Cards -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon icon-blue">🚘</div>
+        <div class="stat-info">
+          <span class="stat-label">Total Verified Cars</span>
+          <span id="statTotalCars" class="stat-value">--</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-emerald">💰</div>
+        <div class="stat-info">
+          <span class="stat-label">Average Price (TJS)</span>
+          <span id="statAvgPrice" class="stat-value">--</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-amber">📞</div>
+        <div class="stat-info">
+          <span class="stat-label">With Phone Numbers</span>
+          <span id="statWithPhone" class="stat-value">--</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-purple">👥</div>
+        <div class="stat-info">
+          <span class="stat-label">Monitored Sellers</span>
+          <span id="statSellersCount" class="stat-value">--</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters & Search Toolbar -->
+    <section class="filter-card">
+      <div class="filter-row primary-search-row">
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search by model, make, specs, phone or caption text...">
+          <button id="btnClearSearch" class="clear-btn" style="display:none;">✕</button>
+        </div>
+        <div class="filter-group">
+          <label for="sortSelect">Sort By</label>
+          <select id="sortSelect">
+            <option value="newest">Newest First</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="year_desc">Year: Newest First</option>
+            <option value="oldest">Oldest First</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filter-row secondary-filter-row">
+        <div class="filter-group">
+          <label for="sellerSelect">Seller Account</label>
+          <select id="sellerSelect">
+            <option value="">All Sellers</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="brandSelect">Brand / Make</label>
+          <select id="brandSelect">
+            <option value="">All Brands</option>
+          </select>
+        </div>
+
+        <div class="filter-group price-inputs">
+          <label>Price Range (TJS)</label>
+          <div class="range-inputs">
+            <input type="number" id="minPriceInput" placeholder="Min TJS" step="5000">
+            <span class="range-sep">—</span>
+            <input type="number" id="maxPriceInput" placeholder="Max TJS" step="5000">
+          </div>
+        </div>
+
+        <div class="filter-group checkbox-group">
+          <label class="custom-checkbox">
+            <input type="checkbox" id="phoneOnlyCheck">
+            <span class="checkmark"></span>
+            <span>Only with Phone 📞</span>
+          </label>
+        </div>
+
+        <div class="filter-group btn-reset-wrapper">
+          <button id="btnResetFilters" class="btn btn-outline">Reset Filters</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Status Bar -->
+    <div class="results-meta-bar">
+      <div class="results-count-text">
+        Showing <strong id="resultsCount">0</strong> vehicles
+      </div>
+      <div id="activeFilterTags" class="active-filter-tags"></div>
+    </div>
+
+    <!-- Vehicles Cards Grid -->
+    <section id="carsGrid" class="cars-grid">
+      <!-- Generated dynamically by app.js -->
+    </section>
+
+    <!-- Empty State Message -->
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <div class="empty-icon">🚗💨</div>
+      <h3>No vehicles match your filters</h3>
+      <p>Try clearing search keywords or adjusting your price and brand filters.</p>
+      <button id="btnEmptyReset" class="btn btn-primary">Reset All Filters</button>
+    </div>
+
+  </main>
+
+  <!-- Car Detail Modal -->
+  <div id="detailModal" class="modal-backdrop" style="display:none;">
+    <div class="modal-window">
+      <button id="modalCloseBtn" class="modal-close-btn">&times;</button>
+      <div id="modalContent" class="modal-content-body">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Checks History Modal -->
+  <div id="dailyModal" class="modal-backdrop" style="display:none;">
+    <div class="modal-window modal-wide">
+      <button id="dailyModalCloseBtn" class="modal-close-btn">&times;</button>
+      <div class="modal-header">
+        <h2>📅 Daily Story Monitoring Activity</h2>
+        <p class="text-muted">History of stories and car listings verified per seller.</p>
+      </div>
+      <div id="dailyChecksTableWrapper" class="table-responsive">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>Car Market Monitor &copy; 2026 | Automated Data Engine for Tajikistan Auto Market</p>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

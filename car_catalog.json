@@ -1,0 +1,456 @@
+[
+  {
+    "brand": "Toyota",
+    "model": "Camry",
+    "aliases": ["TOYOTA CAMRY", "CAMRY", "КАМРИ", "ТОЙОТА КАМРИ"]
+  },
+  {
+    "brand": "Toyota",
+    "model": "RAV4",
+    "aliases": ["TOYOTA RAV4", "RAV4", "РАВ4", "РАВ 4", "TOYOTA RAV 4"]
+  },
+  {
+    "brand": "Toyota",
+    "model": "Corolla",
+    "aliases": ["TOYOTA COROLLA", "COROLLA", "КОРОЛЛА"]
+  },
+  {
+    "brand": "Toyota",
+    "model": "Land Cruiser Prado",
+    "aliases": ["LAND CRUISER PRADO", "PRADO", "TOYOTA PRADO", "ПРАДО", "PRADO 150", "PRADO 250"]
+  },
+  {
+    "brand": "Toyota",
+    "model": "Land Cruiser 300",
+    "aliases": ["LAND CRUISER 300", "LC300", "TOYOTA LC 300", "КРУЗАК 300"]
+  },
+  {
+    "brand": "Toyota",
+    "model": "Land Cruiser 200",
+    "aliases": ["LAND CRUISER 200", "LC200", "TOYOTA LC 200", "КРУЗАК 200"]
+  },
+  {
+    "brand": "Toyota",
+    "model": "Highlander",
+    "aliases": ["TOYOTA HIGHLANDER", "HIGHLANDER", "ХАЙЛЕНДЕР"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "W210",
+    "aliases": ["MERCEDES W 210", "MERCEDES W210", "W210", "W 210", "E-CLASS W210", "МЕРСЕДЕС W210", "МЕРСЕДЕС W 210"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "W211",
+    "aliases": ["MERCEDES W 211", "MERCEDES W211", "W211", "W 211", "E-CLASS W211"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "W212",
+    "aliases": ["MERCEDES W 212", "MERCEDES W212", "W212", "W 212", "E-CLASS W212"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "W213",
+    "aliases": ["MERCEDES W 213", "MERCEDES W213", "W213", "W 213", "E-CLASS W213"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "W221",
+    "aliases": ["MERCEDES W 221", "MERCEDES W221", "W221", "W 221", "S-CLASS W221"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "W222",
+    "aliases": ["MERCEDES W 222", "MERCEDES W222", "W222", "W 222", "S-CLASS W222"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "W223",
+    "aliases": ["MERCEDES W 223", "MERCEDES W223", "W223", "W 223", "S-CLASS W223"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "CLS",
+    "aliases": ["MERCEDES CLS", "CLS", "CLS63", "CLS 63", "CLS 350", "CLS350"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "G-Class",
+    "aliases": ["MERCEDES G CLASS", "G CLASS", "G-CLASS", "GELANDEWAGEN", "G63", "G 63", "G500", "G 500", "GELIK", "GELIK 63"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "GLE",
+    "aliases": ["MERCEDES GLE", "GLE", "GLE 350", "GLE 450", "GLE 53", "GLE COUPE"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "GLS",
+    "aliases": ["MERCEDES GLS", "GLS", "GLS 450", "GLS 580", "GLS 600 MAYBACH"]
+  },
+  {
+    "brand": "Mercedes-Benz",
+    "model": "C-Class",
+    "aliases": ["MERCEDES C CLASS", "C CLASS", "W204", "W205", "W206", "C200", "C300"]
+  },
+  {
+    "brand": "BMW",
+    "model": "M6",
+    "aliases": ["BMW M6", "M6", "M6 COMPETITION", "BMW M6 COMPETITION", "M6 GRAN COUPE"]
+  },
+  {
+    "brand": "BMW",
+    "model": "M5",
+    "aliases": ["BMW M5", "M5", "M5 F90", "M5 COMPETITION", "BMW M5 COMPETITION"]
+  },
+  {
+    "brand": "BMW",
+    "model": "G30",
+    "aliases": ["BMW G30", "G30", "5 SERIES G30", "BMW 5 SERIES G30", "520I G30", "530I G30", "530D G30"]
+  },
+  {
+    "brand": "BMW",
+    "model": "F10",
+    "aliases": ["BMW F10", "F10", "5 SERIES F10", "BMW 5 SERIES F10", "528I F10", "535I F10"]
+  },
+  {
+    "brand": "BMW",
+    "model": "F30",
+    "aliases": ["BMW F30", "F30", "3 SERIES F30", "BMW 3 SERIES F30", "320I F30", "328I F30", "330I F30"]
+  },
+  {
+    "brand": "BMW",
+    "model": "G20",
+    "aliases": ["BMW G20", "G20", "3 SERIES G20", "BMW 3 SERIES G20", "320I G20", "330I G20"]
+  },
+  {
+    "brand": "BMW",
+    "model": "G70",
+    "aliases": ["BMW G70", "G70", "7 SERIES G70", "BMW 7 SERIES G70"]
+  },
+  {
+    "brand": "BMW",
+    "model": "G11 / G12",
+    "aliases": ["BMW G11", "BMW G12", "G11", "G12", "7 SERIES G12"]
+  },
+  {
+    "brand": "BMW",
+    "model": "X5",
+    "aliases": ["BMW X5", "X5", "X5 G05", "X5 F15", "X5 E70", "BMW X5 G05"]
+  },
+  {
+    "brand": "BMW",
+    "model": "X6",
+    "aliases": ["BMW X6", "X6", "X6 G06", "X6 F16", "X6 E71", "BMW X6 G06"]
+  },
+  {
+    "brand": "BMW",
+    "model": "X7",
+    "aliases": ["BMW X7", "X7", "X7 G07", "BMW X7 G07"]
+  },
+  {
+    "brand": "BMW",
+    "model": "M8",
+    "aliases": ["BMW M8", "M8", "M8 COMPETITION", "BMW M8 COMPETITION"]
+  },
+  {
+    "brand": "Lexus",
+    "model": "RX350",
+    "aliases": ["LEXUS RX350", "RX350", "LEXUS RX 350", "RX 350", "RX350H", "RX 350H"]
+  },
+  {
+    "brand": "Lexus",
+    "model": "ES350",
+    "aliases": ["LEXUS ES350", "ES350", "LEXUS ES 350", "ES 350", "ES250", "ES300H"]
+  },
+  {
+    "brand": "Lexus",
+    "model": "LX570",
+    "aliases": ["LEXUS LX570", "LX570", "LEXUS LX 570", "LX 570"]
+  },
+  {
+    "brand": "Lexus",
+    "model": "LX600",
+    "aliases": ["LEXUS LX600", "LX600", "LEXUS LX 600", "LX 600"]
+  },
+  {
+    "brand": "Lexus",
+    "model": "GX460",
+    "aliases": ["LEXUS GX460", "GX460", "LEXUS GX 460", "GX 460"]
+  },
+  {
+    "brand": "Lexus",
+    "model": "GX550",
+    "aliases": ["LEXUS GX550", "GX550", "LEXUS GX 550", "GX 550"]
+  },
+  {
+    "brand": "Land Rover",
+    "model": "Range Rover P550e",
+    "aliases": [
+      "RANGE ROVER P550E",
+      "RENGE ROVER P550E",
+      "RANGE ROVER P550 E",
+      "RENGE ROVER P550 E",
+      "P550E",
+      "P550 E",
+      "LAND ROVER RANGE ROVER P550E",
+      "LAND ROVER RENGE ROVER P550E"
+    ]
+  },
+  {
+    "brand": "Land Rover",
+    "model": "Range Rover Sport",
+    "aliases": ["RANGE ROVER SPORT", "RENGE ROVER SPORT", "SPORT HSE", "RR SPORT"]
+  },
+  {
+    "brand": "Land Rover",
+    "model": "Range Rover Vogue",
+    "aliases": ["RANGE ROVER VOGUE", "RENGE ROVER VOGUE", "VOGUE", "RR VOGUE", "RANGE ROVER AUTOBIOGRAPHY"]
+  },
+  {
+    "brand": "Land Rover",
+    "model": "Range Rover Velar",
+    "aliases": ["RANGE ROVER VELAR", "RENGE ROVER VELAR", "VELAR"]
+  },
+  {
+    "brand": "Land Rover",
+    "model": "Defender",
+    "aliases": ["DEFENDER", "LAND ROVER DEFENDER", "DEFENDER 110", "DEFENDER 90", "DEFENDER 130"]
+  },
+  {
+    "brand": "BYD",
+    "model": "Song Plus",
+    "aliases": ["BYD SONG PLUS", "SONG PLUS", "BYD SONG", "SONG PLUS EV", "SONG PLUS DM-I", "SONG PLUS CHAMPION"]
+  },
+  {
+    "brand": "BYD",
+    "model": "Han",
+    "aliases": ["BYD HAN", "HAN", "BYD HAN EV", "BYD HAN DM-I"]
+  },
+  {
+    "brand": "BYD",
+    "model": "Tang",
+    "aliases": ["BYD TANG", "TANG", "BYD TANG EV", "BYD TANG DM-I"]
+  },
+  {
+    "brand": "BYD",
+    "model": "Chazor",
+    "aliases": ["BYD CHAZOR", "CHAZOR", "BYD DESTROYER 05", "DESTROYER 05", "BYD QIN PLUS"]
+  },
+  {
+    "brand": "BYD",
+    "model": "Seal",
+    "aliases": ["BYD SEAL", "SEAL", "BYD SEAL EV", "SEAL 06"]
+  },
+  {
+    "brand": "BYD",
+    "model": "Yuan Plus",
+    "aliases": ["BYD YUAN PLUS", "YUAN PLUS", "BYD ATTO 3", "ATTO 3"]
+  },
+  {
+    "brand": "Zeekr",
+    "model": "001",
+    "aliases": ["ZEEKR 001", "001", "ZEEKR 001 YOU", "ZEEKR 001 WE", "ZEEKR 001 ME"]
+  },
+  {
+    "brand": "Zeekr",
+    "model": "007",
+    "aliases": ["ZEEKR 007", "007", "ZEEKR 007 AWD"]
+  },
+  {
+    "brand": "Zeekr",
+    "model": "009",
+    "aliases": ["ZEEKR 009", "009", "ZEEKR 009 ME"]
+  },
+  {
+    "brand": "Zeekr",
+    "model": "X",
+    "aliases": ["ZEEKR X", "ZEEKR-X"]
+  },
+  {
+    "brand": "Li Auto",
+    "model": "L7",
+    "aliases": ["LI L7", "L7", "LI AUTO L7", "LIXIANG L7", "L7 MAX", "L7 PRO", "L7 ULTRA"]
+  },
+  {
+    "brand": "Li Auto",
+    "model": "L8",
+    "aliases": ["LI L8", "L8", "LI AUTO L8", "LIXIANG L8", "L8 MAX", "L8 PRO", "L8 ULTRA"]
+  },
+  {
+    "brand": "Li Auto",
+    "model": "L9",
+    "aliases": ["LI L9", "L9", "LI AUTO L9", "LIXIANG L9", "L9 MAX", "L9 PRO", "L9 ULTRA"]
+  },
+  {
+    "brand": "Chery",
+    "model": "Tiggo 8 Pro",
+    "aliases": ["CHERY TIGGO 8 PRO", "TIGGO 8 PRO", "TIGGO 8", "TIGGO 8 PRO MAX"]
+  },
+  {
+    "brand": "Chery",
+    "model": "Tiggo 7 Pro",
+    "aliases": ["CHERY TIGGO 7 PRO", "TIGGO 7 PRO", "TIGGO 7", "TIGGO 7 PRO MAX"]
+  },
+  {
+    "brand": "Chery",
+    "model": "Arrizo 8",
+    "aliases": ["CHERY ARRIZO 8", "ARRIZO 8"]
+  },
+  {
+    "brand": "Hyundai",
+    "model": "Elantra",
+    "aliases": ["HYUNDAI ELANTRA", "ELANTRA", "ХУНДАЙ ЭЛАНТРА", "ЭЛАНТРА"]
+  },
+  {
+    "brand": "Hyundai",
+    "model": "Sonata",
+    "aliases": ["HYUNDAI SONATA", "SONATA", "ХУНДАЙ СОНАТА", "СОНАТА"]
+  },
+  {
+    "brand": "Hyundai",
+    "model": "Santa Fe",
+    "aliases": ["HYUNDAI SANTA FE", "SANTA FE", "ХУНДАЙ САНТА ФЕ", "САНТА ФЕ"]
+  },
+  {
+    "brand": "Hyundai",
+    "model": "Tucson",
+    "aliases": ["HYUNDAI TUCSON", "TUCSON", "ТУКСОН", "ТУСАН"]
+  },
+  {
+    "brand": "Kia",
+    "model": "K5",
+    "aliases": ["KIA K5", "K5", "КИА К5"]
+  },
+  {
+    "brand": "Kia",
+    "model": "Carnival",
+    "aliases": ["KIA CARNIVAL", "CARNIVAL", "КАРНИВАЛ"]
+  },
+  {
+    "brand": "Kia",
+    "model": "Sportage",
+    "aliases": ["KIA SPORTAGE", "SPORTAGE", "СПОРТЕЙДЖ"]
+  },
+  {
+    "brand": "Kia",
+    "model": "Sorento",
+    "aliases": ["KIA SORENTO", "SORENTO", "СОРЕНТО"]
+  },
+  {
+    "brand": "Chevrolet",
+    "model": "Malibu 2",
+    "aliases": ["CHEVROLET MALIBU", "MALIBU 2", "MALIBU", "ШЕВРОЛЕ МАЛИБУ", "МАЛИБУ 2"]
+  },
+  {
+    "brand": "Chevrolet",
+    "model": "Cobalt",
+    "aliases": ["CHEVROLET COBALT", "COBALT", "КОБАЛЬТ"]
+  },
+  {
+    "brand": "Chevrolet",
+    "model": "Tahoe",
+    "aliases": ["CHEVROLET TAHOE", "TAHOE", "ТАХО"]
+  },
+  {
+    "brand": "Chevrolet",
+    "model": "Captiva",
+    "aliases": ["CHEVROLET CAPTIVA", "CAPTIVA", "КАПТИВА"]
+  },
+  {
+    "brand": "Chevrolet",
+    "model": "Monza",
+    "aliases": ["CHEVROLET MONZA", "MONZA", "МОНЗА"]
+  },
+  {
+    "brand": "Geely",
+    "model": "Monjaro",
+    "aliases": ["GEELY MONJARO", "MONJARO", "МОНДЖАРО"]
+  },
+  {
+    "brand": "Geely",
+    "model": "Coolray",
+    "aliases": ["GEELY COOLRAY", "COOLRAY", "КУЛРЕЙ"]
+  },
+  {
+    "brand": "Haval",
+    "model": "H9",
+    "aliases": ["HAVAL H9", "H9"]
+  },
+  {
+    "brand": "Haval",
+    "model": "Dargo",
+    "aliases": ["HAVAL DARGO", "DARGO"]
+  },
+  {
+    "brand": "Jetour",
+    "model": "Dashing",
+    "aliases": ["JETOUR DASHING", "DASHING"]
+  },
+  {
+    "brand": "Jetour",
+    "model": "Traveler (T2)",
+    "aliases": ["JETOUR TRAVELER", "JETOUR T2", "T2"]
+  },
+  {
+    "brand": "Genesis",
+    "model": "GV80",
+    "aliases": ["GENESIS GV80", "GV80"]
+  },
+  {
+    "brand": "Genesis",
+    "model": "G80",
+    "aliases": ["GENESIS G80", "G80"]
+  },
+  {
+    "brand": "Porsche",
+    "model": "Cayenne",
+    "aliases": ["PORSCHE CAYENNE", "CAYENNE", "ПОРШ КАЙЕН"]
+  },
+  {
+    "brand": "Porsche",
+    "model": "Panamera",
+    "aliases": ["PORSCHE PANAMERA", "PANAMERA", "ПАНАМЕРА"]
+  },
+  {
+    "brand": "Porsche",
+    "model": "Macan",
+    "aliases": ["PORSCHE MACAN", "MACAN", "МАКАН"]
+  },
+  {
+    "brand": "Audi",
+    "model": "Q7",
+    "aliases": ["AUDI Q7", "Q7"]
+  },
+  {
+    "brand": "Audi",
+    "model": "Q8",
+    "aliases": ["AUDI Q8", "Q8"]
+  },
+  {
+    "brand": "Audi",
+    "model": "A6",
+    "aliases": ["AUDI A6", "A6"]
+  },
+  {
+    "brand": "Volkswagen",
+    "model": "Touareg",
+    "aliases": ["VOLKSWAGEN TOUAREG", "TOUAREG", "ТУАРЕГ"]
+  },
+  {
+    "brand": "Volkswagen",
+    "model": "Passat",
+    "aliases": ["VOLKSWAGEN PASSAT", "PASSAT", "ПАССАТ"]
+  },
+  {
+    "brand": "Volkswagen",
+    "model": "ID.4",
+    "aliases": ["VOLKSWAGEN ID4", "VW ID4", "ID.4", "ID4 CROZZ", "ID4 X"]
+  },
+  {
+    "brand": "Volkswagen",
+    "model": "ID.6",
+    "aliases": ["VOLKSWAGEN ID6", "VW ID6", "ID.6", "ID6 CROZZ", "ID6 X"]
+  }
+]
