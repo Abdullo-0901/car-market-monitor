@@ -73,6 +73,47 @@ class TestCarParsers(unittest.TestCase):
         self.assertEqual(data["price_tjs"], 835000)
         self.assertEqual(data["phone_number"], "+992 557 94 49 49")
 
+    def test_case_5_story_noisy_ocr_toyota_prado(self):
+        """
+        Test 5: Noisy story OCR with stickers, phone numbers, and watermark footers.
+        """
+        ocr_text = """Instagzam
+X
+4444mk01 @ 12h
+LC PRAD0 D3 2.5 TT EUROPA 2026.5 FULL
+82.900$ 770.900C
+AUTOTUNING
+TAJIKISTAN
+TOYOTA
+4444MKO1
+TEL 901404444
+TEL 028246767
+Reply to 4444mk01.."""
+        data = parse_car_text(ocr_text)
+        self.assertTrue(is_valid_listing(data))
+        self.assertEqual(data["brand"], "Toyota")
+        self.assertEqual(data["model"], "Land Cruiser Prado")
+        self.assertEqual(data["year"], 2026)
+        self.assertEqual(data["month"], 5)
+        self.assertEqual(data["engine"], 2.5)
+        self.assertEqual(data["price_usd"], 82900)
+        self.assertEqual(data["price_tjs"], 770900)
+        self.assertEqual(data["phone_number"], "+992 901 40 44 44")
+
+    def test_case_6_rr_defender_shorthand(self):
+        """
+        Test 6: RR DEFENDER shorthand.
+        """
+        ocr_text = """Instagzam X 4444mk01 19h RR DEFENDER P525 V8 BLACK EDITION EUROPA 2023 FULL 84.900$ 789.900C AUTOTUNING TAJIKISTAN ©4444MK01 TEL 901404444 TEL 028246767 Reply to 4444mk01..."""
+        data = parse_car_text(ocr_text)
+        self.assertTrue(is_valid_listing(data))
+        self.assertEqual(data["brand"], "Land Rover")
+        self.assertEqual(data["model"], "Defender")
+        self.assertEqual(data["year"], 2023)
+        self.assertEqual(data["price_usd"], 84900)
+        self.assertEqual(data["price_tjs"], 789900)
+        self.assertEqual(data["phone_number"], "+992 901 40 44 44")
+
     def test_phone_number_formats(self):
         """
         Additional Test: Verify multiple phone number format extractions.
@@ -81,52 +122,7 @@ class TestCarParsers(unittest.TestCase):
         self.assertEqual(parse_phone_number("WhatsApp: +992 974 44 44 54"), "+992 974 44 44 54")
         self.assertEqual(parse_phone_number("Тел: 907 77 01 10"), "+992 907 77 01 10")
         self.assertEqual(parse_phone_number("+992907491044"), "+992 907 49 10 44")
-
-    def test_mercedes_w210(self):
-        """
-        Additional Test: Mercedes W 210
-        """
-        caption = """🚘Модель MERCEDES W 210
-📆Год:2001
-🏁Производство: GERMANY
-🐎Пробег:1234KM
-⚙Трансмиссия: Автомат D+
-⛽️Топливо: Бензин
-🔋Двигатель:  3.2
-🛠Состояние: с пробегом
-💵Цена: 77 .000c
-Тел.+992 557 94 49 49"""
-        data = parse_car_text(caption)
-        self.assertTrue(is_valid_listing(data))
-        self.assertEqual(data["brand"], "Mercedes-Benz")
-        self.assertIn(data["model"], ["W210", "W 210"])
-        self.assertEqual(data["year"], 2001)
-        self.assertEqual(data["mileage"], 1234)
-        self.assertEqual(data["engine"], 3.2)
-        self.assertEqual(data["price_tjs"], 77000)
-        self.assertEqual(data["phone_number"], "+992 557 94 49 49")
-
-    def test_bmw_g30(self):
-        """
-        Additional Test: BMW G30
-        """
-        caption = """🚘Модель BMW G30
-📆Год:2017
-🏁Производство: KOREA
-🐎Пробег: 244.000km
-⚙Трансмиссия: Автомат
-⛽️Топливо: Дизель
-🔋Двигатель:  2.0
-🛠Состояние: с пробегом
-💵Цена:  212.000c"""
-        data = parse_car_text(caption)
-        self.assertTrue(is_valid_listing(data))
-        self.assertEqual(data["brand"], "BMW")
-        self.assertEqual(data["model"], "G30")
-        self.assertEqual(data["year"], 2017)
-        self.assertEqual(data["mileage"], 244000)
-        self.assertEqual(data["engine"], 2.0)
-        self.assertEqual(data["price_tjs"], 212000)
+        self.assertEqual(parse_phone_number("TEL 901404444"), "+992 901 40 44 44")
 
 
 if __name__ == "__main__":

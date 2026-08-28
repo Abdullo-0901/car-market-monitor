@@ -9,6 +9,7 @@ from config import CAR_CATALOG_PATH, FUZZY_MATCH_THRESHOLD
 # BRAND CANONICAL MAPPING
 # =========================================================
 BRAND_MAPPING = {
+    # Standard Make Names
     "BMW": "BMW",
     "MERCEDES": "Mercedes-Benz",
     "MERCEDES-BENZ": "Mercedes-Benz",
@@ -93,6 +94,47 @@ BRAND_MAPPING = {
     "ROLLS-ROYCE": "Rolls-Royce",
     "ROLLS ROYCE": "Rolls-Royce",
     "ASTON MARTIN": "Aston Martin",
+
+    # Popular Model-First & Shorthand Aliases
+    "LC PRADO": "Toyota",
+    "LC PRAD0": "Toyota",
+    "LAND CRUISER PRADO": "Toyota",
+    "LC300": "Toyota",
+    "LC 300": "Toyota",
+    "LC200": "Toyota",
+    "LC 200": "Toyota",
+    "CAMRY": "Toyota",
+    "CAMRY-6": "Toyota",
+    "COROLLA": "Toyota",
+    "HIGHLANDER": "Toyota",
+    "AVALON": "Toyota",
+
+    "RR DEFENDER": "Land Rover",
+    "DEFENDER": "Land Rover",
+    "RR SPORT": "Land Rover",
+    "RR VOGUE": "Land Rover",
+    "RR VELAR": "Land Rover",
+    "RR AUTOBIOGRAPHY": "Land Rover",
+    "RR": "Land Rover",
+
+    "SANTAFE": "Hyundai",
+    "SANTA FE": "Hyundai",
+    "SANTAFEE": "Hyundai",
+    "PALISADE": "Hyundai",
+
+    "GELIK": "Mercedes-Benz",
+    "GELANDEWAGEN": "Mercedes-Benz",
+    "G63": "Mercedes-Benz",
+    "G 63": "Mercedes-Benz",
+    "G500": "Mercedes-Benz",
+    "G 500": "Mercedes-Benz",
+    "MAYBACH": "Mercedes-Benz",
+
+    "COBALT": "Chevrolet",
+    "MALIBU": "Chevrolet",
+    "MALIBU 2": "Chevrolet",
+    "GENTRA": "Chevrolet",
+    "NEXIA": "Chevrolet",
 }
 
 
@@ -159,10 +201,7 @@ class CarCatalogNormalizer:
         threshold: float = FUZZY_MATCH_THRESHOLD,
     ) -> Tuple[Optional[str], Optional[str]]:
         """
-        Normalizes brand and model.
-        Uses RapidFuzz to match against catalog aliases.
-        If fuzzy similarity >= threshold, returns normalized (brand, model).
-        Otherwise falls back to cleanly normalized parsed brand and model.
+        Normalizes brand and model using catalog lookups and RapidFuzz token matching.
         """
         norm_brand = normalize_brand_name(raw_brand)
         clean_model = re.sub(r"\s+", " ", raw_model or "").strip() if raw_model else None
@@ -176,9 +215,9 @@ class CarCatalogNormalizer:
         if clean_model:
             candidates.append(clean_model.upper())
 
-        # Sub-phrases if model has multiple words (e.g. "M6 4.4 V8 COMPETITION" -> "M6", "M6 4.4")
+        # Sub-phrases if model has multiple words (e.g. "PRADO D3 2.5 TT" -> "PRADO D3", "PRADO")
         if words:
-            for i in range(1, min(len(words), 4)):
+            for i in range(1, min(len(words) + 1, 4)):
                 sub = " ".join(words[:i]).upper()
                 if raw_brand:
                     candidates.append(f"{raw_brand} {sub}".upper())
@@ -199,7 +238,6 @@ class CarCatalogNormalizer:
             best_score = 0.0
 
             for cand in candidates:
-                # token_sort_ratio for robust token matching
                 match = process.extractOne(
                     cand,
                     self.alias_list,

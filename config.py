@@ -6,15 +6,15 @@ from pathlib import Path
 # =========================================================
 SELLERS = [
     "auto_dubai.tj",
-    "autorinok.tajikistan",
-    "autosales.tajikistan",
-    "autorinok.tj",
-    "luxauto.tj",
-    "autolife.tj",
-    "chery_tj",
+    "auto_umedsho",
+    "autofurush.tj",
+    "autokhatlon.tj",
+    "auto_dromtj",
+    "sales_car.tj",
+    "tajcars__",
+    "tjkcars",
+    "taj__auto_car",
     "4444mk01",
-    "auto.busines.tj",
-    "sharkauto_sng_export",
 ]
 
 # =========================================================

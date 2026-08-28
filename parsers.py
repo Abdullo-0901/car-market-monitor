@@ -31,6 +31,22 @@ def normalize_instagram_url(url: Optional[str]) -> Optional[str]:
     return url
 
 
+def clean_ui_noise(text: str) -> str:
+    """Removes common Instagram / Story UI and watermark noise before parsing."""
+    if not text:
+        return ""
+
+    # Remove UI headers and footers
+    cleaned = re.sub(r"\b(?:Instagzam|Instagram|Insta)\b", " ", text, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\bReply to\b.*", " ", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\bSend message\b.*", " ", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\bAUTOTUNING\b", " ", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"\bTAJIKISTAN\b", " ", cleaned, flags=re.IGNORECASE)
+    cleaned = re.sub(r"[@©]\w+", " ", cleaned)  # watermarks like @4444mk01, ©4444MK01
+
+    return re.sub(r"[ \t]+", " ", cleaned).strip()
+
+
 # =========================================================
 # PHONE NUMBER PARSER
 # =========================================================
@@ -41,8 +57,8 @@ def parse_phone_number(text: str) -> Optional[str]:
     Supports formats:
       - 'Тел.+992 557 94 49 49'
       - 'Тел: +992 907 77 01 10'
+      - 'TEL 901404444'
       - 'WhatsApp: +992 974 44 44 54'
-      - 'Тел: 907 77 01 10'
       - '+992907770110'
     Returns normalized phone string e.g. '+992 907 77 01 10' or None.
     """
@@ -52,13 +68,13 @@ def parse_phone_number(text: str) -> Optional[str]:
     # 1. Search for explicitly labeled phone prefixes
     labeled_pattern = (
         r"(?:Тел|Tel|Телефон|WhatsApp|W/A|Вайбер|Viber|Номер|Мурочиат|Тамос)\s*[:.\-]?\s*"
-        r"(\+?992[\d\s.\-]{8,16}|\b[5789]\d[\d\s.\-]{7,13})"
+        r"(\+?992[\d\s.\-]{8,16}|\b[05789]\d[\d\s.\-]{7,13})"
     )
     match = re.search(labeled_pattern, text, re.IGNORECASE)
     if match:
         raw_phone = match.group(1)
         digits = re.sub(r"[^\d]", "", raw_phone)
-        if len(digits) == 9:  # local 9-digit without country code (e.g., 907770110)
+        if len(digits) == 9:  # local 9-digit (e.g., 901404444 or 028246767)
             digits = "992" + digits
         if len(digits) == 12 and digits.startswith("992"):
             return f"+{digits[:3]} {digits[3:6]} {digits[6:8]} {digits[8:10]} {digits[10:12]}"
@@ -87,9 +103,9 @@ def parse_prices(text: str) -> Tuple[Optional[int], Optional[int]]:
     """
     Parses TJS and USD prices from text.
     Supports formats:
-      - TJS: 77 .000c, 77.000c, 77 000c, 77000c, 77.000с, 77 000 сомони, 77 000 TJS
-      - USD: 23.900$, 23 900$, 23900$, $23900
-      - Dual: 23.900$ 222.900c
+      - TJS: 77 .000c, 77.000c, 770.900C, 1.487.900C, 77 000 сомони, 77 000 TJS
+      - USD: 23.900$, 82.900$, 23900$, $23900
+      - Dual: 82.900$ 770.900C
     Returns (price_tjs, price_usd).
     """
     price_tjs: Optional[int] = None
@@ -119,7 +135,7 @@ def parse_prices(text: str) -> Tuple[Optional[int], Optional[int]]:
             else:
                 price_tjs = val
 
-    # 2. USD regex: e.g. 23.900$, 23 900$, $23,900
+    # 2. USD regex: e.g. 23.900$, 82.900$, $82,900
     usd_matches = re.findall(
         r"(?:\$\s*(\d{1,3}(?:[.\s,]\d{3})+|\d{4,7})|(\d{1,3}(?:[.\s,]\d{3})+|\d{4,7})\s*\$)",
         text,
@@ -133,9 +149,9 @@ def parse_prices(text: str) -> Tuple[Optional[int], Optional[int]]:
                 price_usd = val
                 break
 
-    # 3. TJS regex: e.g. 77 .000c, 77.000c, 222.900c, 77 000 сомони, 77000 TJS
+    # 3. TJS regex: e.g. 77 .000c, 770.900C, 1.487.900C, 77 000 сомони, 77000 TJS
     tjs_patterns = [
-        r"(?<!\d)(\d{1,3}(?:[.\s,]\s*\d{3})+|\d{4,8})\s*[cс](?![A-Za-zА-Яа-я0-9])",
+        r"(?<!\d)(\d{1,3}(?:[.\s,]\s*\d{3})+|\d{4,8})\s*[cсCС](?![A-Za-zА-Яа-я0-9])",
         r"(?<!\d)(\d{1,3}(?:[.\s,]\s*\d{3})+|\d{4,8})\s*(?:сомони|tjs)\b",
     ]
     for pat in tjs_patterns:
@@ -159,7 +175,7 @@ def parse_prices(text: str) -> Tuple[Optional[int], Optional[int]]:
 def parse_year_month(text: str) -> Tuple[Optional[int], Optional[int]]:
     """
     Parses manufacturing year and optional month.
-    Supports: 2023, 2023.07, 2023 07, 2023/07, 2023-07, 2023.7
+    Supports: 2023, 2023.07, 2026.5, 2023 07, 2023/07, 2023-07
     Returns (year, month).
     """
     if not text:
@@ -257,8 +273,8 @@ def parse_engine(text: str) -> Optional[float]:
         except ValueError:
             pass
 
-    # Unlabeled engine: e.g. 4.4 V8, 2.5L, 3.0 twin turbo
-    match_free = re.search(r"\b([1-7][.,]\d)\s*(?:V[468]|L\b|л\b|турбо|turbo|twin)", text, re.IGNORECASE)
+    # Unlabeled engine: e.g. 4.4 V8, 2.5L, 3.5 V6, 3.0 twin turbo
+    match_free = re.search(r"\b([1-7][.,]\d)\s*(?:V[468]|L\b|л\b|TT\b|турбо|turbo|twin)", text, re.IGNORECASE)
     if match_free:
         try:
             val_str = match_free.group(1).replace(",", ".")
@@ -289,18 +305,19 @@ def parse_engine(text: str) -> Optional[float]:
 def parse_brand_and_model(text: str) -> Tuple[Optional[str], Optional[str]]:
     """
     Parses brand and model from labeled caption or raw story text,
-    then applies RapidFuzz normalization.
+    stripping UI artifacts and applying RapidFuzz normalization.
     """
     if not text:
         return None, None
 
+    cleaned_text = clean_ui_noise(text)
     raw_brand: Optional[str] = None
     raw_model: Optional[str] = None
 
     # 1. Labeled model: e.g. "Модель TOYOTA RAV4" or "Модель: RENGE ROVER P550E"
     model_label_match = re.search(
         r"(?:Модель автомобиля|Модель|Model|Марка)\s*[:\-]?\s*([^\n\r]+)",
-        text,
+        cleaned_text,
         re.IGNORECASE,
     )
 
@@ -310,8 +327,19 @@ def parse_brand_and_model(text: str) -> Tuple[Optional[str], Optional[str]]:
 
         for alias in sorted(BRAND_MAPPING.keys(), key=len, reverse=True):
             if upper_line.startswith(alias):
-                raw_brand = alias
+                raw_brand = BRAND_MAPPING[alias]
                 raw_model = line[len(alias):].strip(" :-")
+                # If alias is a model itself (e.g. CAMRY, LC PRADO, DEFENDER)
+                if alias in ("CAMRY", "CAMRY-6"):
+                    raw_model = f"Camry {raw_model}".strip()
+                elif alias in ("LC PRADO", "LC PRAD0", "PRADO", "LAND CRUISER PRADO"):
+                    raw_model = f"Land Cruiser Prado {raw_model}".strip()
+                elif alias in ("LC300", "LC 300"):
+                    raw_model = f"Land Cruiser 300 {raw_model}".strip()
+                elif alias in ("RR DEFENDER", "DEFENDER"):
+                    raw_model = f"Defender {raw_model}".strip()
+                elif alias in ("SANTAFE", "SANTA FE", "SANTAFEE"):
+                    raw_model = f"Santa Fe {raw_model}".strip()
                 break
 
         if not raw_brand:
@@ -319,27 +347,49 @@ def parse_brand_and_model(text: str) -> Tuple[Optional[str], Optional[str]]:
             raw_brand = parts[0]
             raw_model = parts[1] if len(parts) > 1 else None
 
-    # 2. Unlabeled / Story text: e.g. "BMW M6 4.4 V8 COMPETITION 2014 FULL"
+    # 2. Unlabeled / Story text (e.g. "LC PRAD0 D3 2.5 TT EUROPA 2026.5 FULL 82.900$")
     if not raw_brand:
-        upper_text = re.sub(r"\s+", " ", text).upper()
+        upper_text = re.sub(r"\s+", " ", cleaned_text).upper()
 
         for alias in sorted(BRAND_MAPPING.keys(), key=len, reverse=True):
             pattern = rf"(?:\b|^){re.escape(alias)}(?:\b|$)"
             match = re.search(pattern, upper_text)
             if match:
                 pos = match.start()
-                raw_brand = alias
+                raw_brand = BRAND_MAPPING[alias]
 
-                orig_segment = re.sub(r"\s+", " ", text)[pos + len(alias):]
-                # Cut at price, newline, or major keywords
+                orig_segment = re.sub(r"\s+", " ", cleaned_text)[pos + len(alias):]
+
+                # Cut off immediately before prices, years, phone numbers, or metadata words
                 cut_match = re.split(
-                    r"[\n\r]|(?:\b\d{1,3}(?:[.\s]\d{3})+\s*[$сc])|(?:\b\d{4,7}\s*[$сc])|Цена|Нарх|Price|Год|Пробег",
+                    r"[\n\r]|(?:\b\d{1,3}(?:[.\s]\d{3})+\s*[$сcCС])|(?:\b\d{4,7}\s*[$сcCС])|"
+                    r"(?:\b(19\d{2}|20\d{2})\b)|"
+                    r"\b(?:TEL|Тел|WhatsApp|Phone|Номер|Цена|Нарх|Price|Год|Пробег|Reply|Send|AUTOTUNING|TAJIKISTAN)\b",
                     orig_segment,
                     maxsplit=1,
                     flags=re.IGNORECASE,
                 )
                 raw_model = cut_match[0].strip(" :-")
+
+                # If alias itself represents a specific model
+                if alias in ("CAMRY", "CAMRY-6"):
+                    raw_model = f"Camry {raw_model}".strip()
+                elif alias in ("LC PRADO", "LC PRAD0", "PRADO", "LAND CRUISER PRADO"):
+                    raw_model = f"Land Cruiser Prado {raw_model}".strip()
+                elif alias in ("LC300", "LC 300"):
+                    raw_model = f"Land Cruiser 300 {raw_model}".strip()
+                elif alias in ("RR DEFENDER", "DEFENDER"):
+                    raw_model = f"Defender {raw_model}".strip()
+                elif alias in ("SANTAFE", "SANTA FE", "SANTAFEE"):
+                    raw_model = f"Santa Fe {raw_model}".strip()
+
                 break
+
+    # Clean residual specification terms and phone fragments from model string
+    if raw_model:
+        raw_model = re.sub(r"\b(?:FULL|ABTOCAЛOH|АВТОСАЛОН|EUROPA|AMERIKA|KOREA|БЕ ГУМРУК|РАСТАМОЖКА|M PACKET|M SPORT|COMPETITION|EDITION)\b", "", raw_model, flags=re.IGNORECASE)
+        raw_model = re.sub(r"\b\d{6,}\b", "", raw_model)  # remove rogue phone digits
+        raw_model = re.sub(r"\s+", " ", raw_model).strip(" :-.,")
 
     return normalize_car_model(raw_brand, raw_model)
 
