@@ -1,12 +1,21 @@
 # =========================================================
-# PYTHON VIRTUAL ENVIRONMENTS
+# NODE.JS & TYPESCRIPT BUILDS
 # =========================================================
-.venv/
-venv/
-env/
-ENV/
-env.bak/
-venv.bak/
+node_modules/
+dist/
+build/
+.npm/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# =========================================================
+# ENVIRONMENT & SECRETS
+# =========================================================
+.env
+.env.local
+.env.*.local
 
 # =========================================================
 # SCRAPED MEDIA & IMAGES
@@ -20,21 +29,12 @@ car_images/
 *.sqlite
 *.sqlite3
 instagram_monitor.db
+instagram_monitor.db-shm
+instagram_monitor.db-wal
 *.db-journal
 *.db-wal
 *.db-shm
 *.sqlite-journal
-
-# =========================================================
-# BYTECODE & CACHE FILES
-# =========================================================
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.pytest_cache/
-.coverage
-htmlcov/
 
 # =========================================================
 # TEMPORARY RUNTIME ARTIFACTS
@@ -45,10 +45,20 @@ story_temp/
 *.log
 
 # =========================================================
-# INSTAGRAM SESSIONS & BROWSER DATA
+# INSTAGRAM SESSIONS & PLAYWRIGHT PROFILES
 # =========================================================
 instagram-session/
 .instagram-car-monitor/
+test-results/
+playwright-report/
+
+# =========================================================
+# OCR & MODEL CACHES
+# =========================================================
+.paddle/
+.paddleocr/
+.cache/
+.tesseract/
 
 # =========================================================
 # OPERATING SYSTEM SPECIFIC FILES
@@ -62,7 +72,7 @@ ehthumbs.db
 Thumbs.db
 
 # =========================================================
-# IDE & EDITOR SETTINGS
+# IDE & CODE EDITORS
 # =========================================================
 .idea/
 .vscode/
@@ -71,10 +81,3 @@ Thumbs.db
 *~
 *.sublime-project
 *.sublime-workspace
-
-# =========================================================
-# OCR / ML MODEL CACHES
-# =========================================================
-.paddle/
-.paddleocr/
-.cache/

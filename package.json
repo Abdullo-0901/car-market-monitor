@@ -1,0 +1,41 @@
+{
+  "name": "car-price-analyzer",
+  "version": "2.0.0",
+  "description": "Automated Tajikistan Instagram Car Market Monitor & Intelligence Engine in TypeScript",
+  "main": "src/storyMonitor.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/storyMonitor.ts",
+    "web": "tsx src/server.ts",
+    "test": "tsx --test src/__tests__/parsers.test.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
+  },
+  "keywords": [
+    "instagram",
+    "scraper",
+    "car-market",
+    "playwright",
+    "ocr",
+    "typescript",
+    "sqlite"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "fuzzysort": "^3.1.0",
+    "playwright": "^1.50.1",
+    "tesseract.js": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
